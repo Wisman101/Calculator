@@ -43,7 +43,8 @@ button:focus{
 #operand{
     float: left;
     width: 25px;
-    text-align: left !important;
+    text-align: center !important;
+    color: white;
 }
 #cal{
     width: 50%;
