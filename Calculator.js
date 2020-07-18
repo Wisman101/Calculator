@@ -7,6 +7,9 @@ let variables = {
     neg: 0,        //activated when "neg" button is pressed, helps to realize a double negation
     result: 0,     //stores the result of the operation
     d: 0,          //activated if the last input is a decimal
+    ops:'',
+    input: '',
+    ans:''
 }
 
 //function to take users input from the keyboard
@@ -17,6 +20,43 @@ document.addEventListener('keydown', function (e) {
     button(e.key);
 })
 
+
+function renderAns(){
+    document.getElementById('ans').value = variables.ans;
+}
+
+function renderOperand(){
+
+    document.getElementById('operand').value = variables.ops;
+}
+
+function renderInput(){
+    document.getElementById('input').value = variables.input;
+}
+
+function render(field){
+    console.log(variables);
+    
+    switch (field) {
+        case 'ans':
+            renderAns();
+            break;
+
+        case 'operand':
+            renderOperand();
+            break;
+    
+        case 'input':
+            renderInput();
+            break;
+        case 'all':
+            renderOperand();
+            renderAns();
+            renderInput();
+
+    }
+}
+
 //checks the input value and calls the respective function
 function button(value) {
     let digit = /[0-9]/i;
@@ -25,11 +65,6 @@ function button(value) {
         number(value);
     }
     else if(value === '*' || value === '='|| value === 'Enter' || value === '/' || value === '-' || value === '+'){
-        if(value === 'Enter'){
-            document.getElementById('operand').value = '=';
-        }else{
-            document.getElementById('operand').value = value;
-        }
         operation(value);
     }
     else if(value === '.'){
@@ -47,21 +82,39 @@ function button(value) {
 function number(num) {
     variables.d = 0;
     if(variables.eq === 1){
-        document.getElementById('operand').value = '';
+            //render()
+            render('operand');
     }
+
     variables.eq = 0;
     if (variables.current === '0'){
-        document.getElementById('ans').value = num;
         variables.current = num;
     }
     else{
         variables.current += num;
-        document.getElementById('ans').value = variables.current;
     }
+    //update
+    variables.ans = variables.current;
+    //render
+
+    render('ans');
 }
 
 //function for checking the operation and updating the operand variable.
-function operation(ops) {
+function operation(operation) {
+    let ops = operation;
+    let ans='';
+    let input = '';
+
+    if(ops === 'Enter'){
+        ops = '=';
+    }
+
+    //update ops
+    variables.ops = ops;
+
+    // //render ops
+    // render('operand');
 
     if (variables.operand === 0) {
         if (variables.d === 1) {
@@ -72,19 +125,30 @@ function operation(ops) {
         }
         variables.memory = variables.current;
         variables.current = '0';
-        document.getElementById('input').value = variables.memory;
-        document.getElementById('ans').value = variables.current;
+
+        //update
+        variables.input = variables.memory;
+        variables.ans = variables.current;
+
+
         variables.decimal = 0;
     }else if(variables.operand !== 0 && variables.current !== '0'){
         equal();
     }
+
+
     if (variables.eq === 1) {
         variables.memory = variables.result;
         variables.current = '0';
-        document.getElementById('input').value = variables.memory;
-        document.getElementById('ans').value = variables.current;
+        
+        //update
+        variables.input = variables.memory;
+        variables.ans = variables.current;
+
+
         variables.eq = 0;
     }
+
     if (ops === '+') {
         variables.operand = 1;
     } else if (ops === '-') {
@@ -94,21 +158,31 @@ function operation(ops) {
     } else if (ops === '/') {
         variables.operand = 4;
     }
+
     else if(ops === '=' || ops === 'Enter'){
         equal();
         if(variables.result === 'err'){
-            document.getElementById('ans').value = "error! Division by zero";
-            document.getElementById('input').value = '';
+
+        //update
+        variables.input = '';
+        variables.ans = "error! Division by zero";
+
+
             variables.result = 0;
         }else{
-            document.getElementById('ans').value = variables.result;
             variables.memory = '0';
             variables.current = '0';
-            document.getElementById('input').value = '';
+  
+            //update
+            variables.input = '';
+            variables.ans =variables.result;
         }
 
     }
     variables.neg = 0;
+
+    //will render here once
+    render('all');
 }
 
 //function for performing the entered operation
@@ -156,13 +230,21 @@ function decimalPoint() {
         variables.current += '0.';
         variables.d = 1;
         variables.decimal = 1;
-        document.getElementById('ans').value = variables.current;
+
     }else if (variables.decimal === 0){
         variables.current += '.';
         variables.d = 1;
         variables.decimal = 1;
-        document.getElementById('ans').value = variables.current;
+
     }
+
+
+    //update
+    variables.ans = variables.current;
+
+
+    //render()
+    render('ans');
 }
 
 //function to negate
@@ -171,20 +253,24 @@ function negate() {
     if(variables.neg === 0){
         if(variables.current === '0'){
             variables.current = '-';
-            document.getElementById('ans').value = variables.current;
             variables.neg = 1;
+
         }else{
             variables.current = '-' + variables.current;
-            document.getElementById('ans').value = variables.current;
             variables.neg = 1;
+
         }
     }else{
         let y = variables.current.length;
         variables.current = variables.current.slice(1,y);
-        document.getElementById('ans').value = variables.current;
         variables.neg = 0;
+
     }
 
+    //update
+    variables.ans = variables.current;
+
+    render('ans')
 }
 
 //function to delete ans clear all
@@ -198,9 +284,14 @@ function clear(x) {
         variables.neg = 0;
         variables.result = 0;
         variables.d = 0;
-        document.getElementById('ans').value = variables.current;
-        document.getElementById('input').value = ''
-        document.getElementById('operand').value = '';
+
+           
+
+        //update
+    variables.ans = variables.current;
+    variables.input = '';
+    variables.operand = '';
+
     }else if(x === 'd' || x === 'Backspace'){
         let v = variables.current.length;
         let m = variables.current.slice(v-1);
@@ -208,17 +299,26 @@ function clear(x) {
             variables.decimal = 0;
             variables.d = 0;
         }
+
         if (variables.eq === 0){
             variables.current = variables.current.slice(0,-1);
-            document.getElementById('ans').value = variables.current;
+
         }else{
-            document.getElementById('operand').value = '';
+            
+            
             variables.current = variables.result.toString();
             variables.current = variables.current.slice(0,-1);
-            document.getElementById('ans').value = variables.current;
             variables.eq = 0;
+            
+
+             //update
+            variables.ans = variables.current;
+            variables.operand = '';
         }
-
-
+        
     }
+
+    //render()
+    render('all');
+
 }
