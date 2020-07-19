@@ -7,7 +7,9 @@
     border-radius: 10px;
     box-shadow: 3px 3px 15px 3px black;
 }
-
+p{
+    user-select: none;
+}
 #label{
     margin-top: 20px;
     text-align: center;
