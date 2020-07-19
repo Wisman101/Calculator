@@ -1,0 +1,65 @@
+<!--A simple calculator-->
+<!--for simple calculations i.e add, subtraction, division and multiplication-->
+<!--Using a phone UX-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Simple Calculator</title>
+    <link href="Calculator.css" rel="stylesheet">
+</head>
+<body>
+<!--#cover - phone cover-->
+<div id="cover">
+    <div id="label">
+        ...........
+    <h1>Nokia</h1>
+    </div>
+    <div id="screen">
+        <div id="display">
+            <input type="text" disabled  id="input">
+            <input type="text" value="0" placeholder="0" disabled id="ans">
+            <input type="text" disabled id="operand">
+        </div>
+        <div id="calc">
+            <div id="cal">
+                <p id="plus" class="op" onclick="button('+')">+</p>
+                <p id="mult" class="op" onclick="button('*')">*</p>
+                <p id="div" class="op" onclick="button('/')">/</p>
+                <p id="equal" class="op" onclick="button('=')">=</p>
+                <p id="minus" class="op" onclick="button('-')">-</p>
+            </div>
+                <p id="clear" class="btm" onclick="button('c')">clearAll</p>
+                <p id="back" class="btm" onclick="button('d')">delete</p>
+        </div>
+    </div>
+<!--    buttons onclick call function button to determine action to be taken-->
+    <div id="buttons">
+        <div id="center_button">
+            <input type="button" name="add" onclick="button('+')" id="add" class="opd">
+            <input type="button" name="times" onclick="button('*')" id="times" class="opd">
+            <input type="button" name="EQ" onclick="button('=')" id="EQ" class="opd">
+            <input type="button" name="divide" onclick="button('/')" id="divide" class="opd">
+            <input type="button" name="sub" onclick="button('-')" id="sub" class="opd">
+        </div>
+        <input type="button" name="clearall" onclick="button('c')" value="-">
+        <input type="button" name="delete" onclick="button('d')" value="-">
+        <input type="button" name="cal" value="(">
+        <input type="button" name="shutdown" value="@">
+        <input type="button" name="one" onclick="button('1')" value="1@">
+        <input type="button" name="two" onclick="button('2')" value="2abc">
+        <input type="button" name="three" onclick="button('3')" value="3def">
+        <input type="button" name="four" onclick="button('4')" value="4ghi">
+        <input type="button" name="five" onclick="button('5')" value="5jkl">
+        <input type="button" name="six" onclick="button('6')" value="6mno">
+        <input type="button" name="seven" onclick="button('7')" value="7pqrs">
+        <input type="button" name="eight" onclick="button('8')" value="8tuv">
+        <input type="button" name="nine" onclick="button('9')" value="9wxyz">
+        <input type="button" name="star" onclick="button('.')" value=".">
+        <input type="button" name="zero" onclick="button('0')" value="0_">
+        <input type="button" name="hash" onclick="button('neg')" value="neg">
+    </div>
+</div>
+<script src="Calculator.js"></script>
+</body>
+</html>
